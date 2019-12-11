@@ -1,0 +1,594 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1927447D237AC72D00E42686 /* WaittingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1927447C237AC72D00E42686 /* WaittingView.swift */; };
+		192C501623796C7100BA5C37 /* ToolTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C501523796C7100BA5C37 /* ToolTypeView.swift */; };
+		192C50182379719700BA5C37 /* DragableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C50172379719700BA5C37 /* DragableView.swift */; };
+		192C501A2379815C00BA5C37 /* Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C50192379815C00BA5C37 /* Convert.swift */; };
+		1940E06E237695E500C52B8B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1940E06D237695E500C52B8B /* AppDelegate.swift */; };
+		1940E070237695E500C52B8B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1940E06F237695E500C52B8B /* ContentView.swift */; };
+		1940E072237695E700C52B8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1940E071237695E700C52B8B /* Assets.xcassets */; };
+		1940E075237695E700C52B8B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1940E074237695E700C52B8B /* Preview Assets.xcassets */; };
+		1940E078237695E700C52B8B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1940E076237695E700C52B8B /* Main.storyboard */; };
+		1940E0832376965A00C52B8B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1940E0822376965A00C52B8B /* UserData.swift */; };
+		19588DB3237D62E00020E867 /* XLNT.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19588DB2237D62E00020E867 /* XLNT.mm */; };
+		1980A5F1237D4370006A22EE /* libxlntd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1980A5A6237D436F006A22EE /* libxlntd.a */; };
+		1980A5F2237D4370006A22EE /* liblibstudxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1980A5F0237D4370006A22EE /* liblibstudxml.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1927447C237AC72D00E42686 /* WaittingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaittingView.swift; sourceTree = "<group>"; };
+		192C501523796C7100BA5C37 /* ToolTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolTypeView.swift; sourceTree = "<group>"; };
+		192C50172379719700BA5C37 /* DragableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragableView.swift; sourceTree = "<group>"; };
+		192C50192379815C00BA5C37 /* Convert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Convert.swift; sourceTree = "<group>"; };
+		1940E06A237695E500C52B8B /* Language Tool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Language Tool.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1940E06D237695E500C52B8B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1940E06F237695E500C52B8B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1940E071237695E700C52B8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1940E074237695E700C52B8B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1940E077237695E700C52B8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1940E079237695E700C52B8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1940E07A237695E700C52B8B /* Language_Tool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Language_Tool.entitlements; sourceTree = "<group>"; };
+		1940E0822376965A00C52B8B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		19588DB0237D62E00020E867 /* Language Tool-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Language Tool-Bridging-Header.h"; sourceTree = "<group>"; };
+		19588DB1237D62E00020E867 /* XLNT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLNT.h; sourceTree = "<group>"; };
+		19588DB2237D62E00020E867 /* XLNT.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XLNT.mm; sourceTree = "<group>"; };
+		1980A5A6237D436F006A22EE /* libxlntd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libxlntd.a; sourceTree = "<group>"; };
+		1980A5A9237D436F006A22EE /* manifest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = manifest.hpp; sourceTree = "<group>"; };
+		1980A5AA237D436F006A22EE /* uri.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = uri.hpp; sourceTree = "<group>"; };
+		1980A5AB237D436F006A22EE /* relationship.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = relationship.hpp; sourceTree = "<group>"; };
+		1980A5AC237D436F006A22EE /* ext_list.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ext_list.hpp; sourceTree = "<group>"; };
+		1980A5AE237D436F006A22EE /* range_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = range_iterator.hpp; sourceTree = "<group>"; };
+		1980A5AF237D436F006A22EE /* print_options.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = print_options.hpp; sourceTree = "<group>"; };
+		1980A5B0237D436F006A22EE /* sheet_view.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sheet_view.hpp; sourceTree = "<group>"; };
+		1980A5B1237D436F006A22EE /* header_footer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = header_footer.hpp; sourceTree = "<group>"; };
+		1980A5B2237D436F006A22EE /* sheet_protection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sheet_protection.hpp; sourceTree = "<group>"; };
+		1980A5B3237D436F006A22EE /* selection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = selection.hpp; sourceTree = "<group>"; };
+		1980A5B4237D436F006A22EE /* phonetic_pr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = phonetic_pr.hpp; sourceTree = "<group>"; };
+		1980A5B5237D436F006A22EE /* major_order.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = major_order.hpp; sourceTree = "<group>"; };
+		1980A5B6237D436F006A22EE /* pane.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pane.hpp; sourceTree = "<group>"; };
+		1980A5B7237D436F006A22EE /* cell_vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cell_vector.hpp; sourceTree = "<group>"; };
+		1980A5B8237D436F006A22EE /* row_properties.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = row_properties.hpp; sourceTree = "<group>"; };
+		1980A5B9237D436F006A22EE /* range_reference.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = range_reference.hpp; sourceTree = "<group>"; };
+		1980A5BA237D436F006A22EE /* page_setup.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = page_setup.hpp; sourceTree = "<group>"; };
+		1980A5BB237D436F006A22EE /* column_properties.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = column_properties.hpp; sourceTree = "<group>"; };
+		1980A5BC237D436F006A22EE /* sheet_format_properties.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sheet_format_properties.hpp; sourceTree = "<group>"; };
+		1980A5BD237D436F006A22EE /* page_margins.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = page_margins.hpp; sourceTree = "<group>"; };
+		1980A5BE237D436F006A22EE /* range.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = range.hpp; sourceTree = "<group>"; };
+		1980A5BF237D436F006A22EE /* sheet_pr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sheet_pr.hpp; sourceTree = "<group>"; };
+		1980A5C0237D436F006A22EE /* cell_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cell_iterator.hpp; sourceTree = "<group>"; };
+		1980A5C1237D436F006A22EE /* worksheet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = worksheet.hpp; sourceTree = "<group>"; };
+		1980A5C3237D436F006A22EE /* timedelta.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = timedelta.hpp; sourceTree = "<group>"; };
+		1980A5C4237D436F006A22EE /* datetime.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = datetime.hpp; sourceTree = "<group>"; };
+		1980A5C5237D436F006A22EE /* time.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = time.hpp; sourceTree = "<group>"; };
+		1980A5C6237D436F006A22EE /* variant.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = variant.hpp; sourceTree = "<group>"; };
+		1980A5C7237D436F006A22EE /* serialisation_utils.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = serialisation_utils.hpp; sourceTree = "<group>"; };
+		1980A5C8237D436F006A22EE /* path.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = path.hpp; sourceTree = "<group>"; };
+		1980A5C9237D436F006A22EE /* date.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = date.hpp; sourceTree = "<group>"; };
+		1980A5CA237D436F006A22EE /* optional.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = optional.hpp; sourceTree = "<group>"; };
+		1980A5CB237D436F006A22EE /* calendar.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = calendar.hpp; sourceTree = "<group>"; };
+		1980A5CC237D436F006A22EE /* exceptions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = exceptions.hpp; sourceTree = "<group>"; };
+		1980A5CD237D436F006A22EE /* scoped_enum_hash.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = scoped_enum_hash.hpp; sourceTree = "<group>"; };
+		1980A5CE237D436F006A22EE /* xlnt.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xlnt.hpp; sourceTree = "<group>"; };
+		1980A5D0237D436F006A22EE /* rich_text_run.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rich_text_run.hpp; sourceTree = "<group>"; };
+		1980A5D1237D436F006A22EE /* cell_type.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cell_type.hpp; sourceTree = "<group>"; };
+		1980A5D2237D436F006A22EE /* hyperlink.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hyperlink.hpp; sourceTree = "<group>"; };
+		1980A5D3237D436F006A22EE /* cell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cell.hpp; sourceTree = "<group>"; };
+		1980A5D4237D4370006A22EE /* cell_reference.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cell_reference.hpp; sourceTree = "<group>"; };
+		1980A5D5237D4370006A22EE /* index_types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = index_types.hpp; sourceTree = "<group>"; };
+		1980A5D6237D4370006A22EE /* comment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = comment.hpp; sourceTree = "<group>"; };
+		1980A5D7237D4370006A22EE /* rich_text.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rich_text.hpp; sourceTree = "<group>"; };
+		1980A5D9237D4370006A22EE /* alignment.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = alignment.hpp; sourceTree = "<group>"; };
+		1980A5DA237D4370006A22EE /* border.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = border.hpp; sourceTree = "<group>"; };
+		1980A5DB237D4370006A22EE /* number_format.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = number_format.hpp; sourceTree = "<group>"; };
+		1980A5DC237D4370006A22EE /* fill.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fill.hpp; sourceTree = "<group>"; };
+		1980A5DD237D4370006A22EE /* font.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = font.hpp; sourceTree = "<group>"; };
+		1980A5DE237D4370006A22EE /* protection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = protection.hpp; sourceTree = "<group>"; };
+		1980A5DF237D4370006A22EE /* color.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = color.hpp; sourceTree = "<group>"; };
+		1980A5E0237D4370006A22EE /* format.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = format.hpp; sourceTree = "<group>"; };
+		1980A5E1237D4370006A22EE /* style.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = style.hpp; sourceTree = "<group>"; };
+		1980A5E2237D4370006A22EE /* conditional_format.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = conditional_format.hpp; sourceTree = "<group>"; };
+		1980A5E3237D4370006A22EE /* xlnt_config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xlnt_config.hpp; sourceTree = "<group>"; };
+		1980A5E5237D4370006A22EE /* workbook_view.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = workbook_view.hpp; sourceTree = "<group>"; };
+		1980A5E6237D4370006A22EE /* workbook.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = workbook.hpp; sourceTree = "<group>"; };
+		1980A5E7237D4370006A22EE /* external_book.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = external_book.hpp; sourceTree = "<group>"; };
+		1980A5E8237D4370006A22EE /* theme.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = theme.hpp; sourceTree = "<group>"; };
+		1980A5E9237D4370006A22EE /* metadata_property.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = metadata_property.hpp; sourceTree = "<group>"; };
+		1980A5EA237D4370006A22EE /* worksheet_iterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = worksheet_iterator.hpp; sourceTree = "<group>"; };
+		1980A5EB237D4370006A22EE /* named_range.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = named_range.hpp; sourceTree = "<group>"; };
+		1980A5EC237D4370006A22EE /* calculation_properties.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = calculation_properties.hpp; sourceTree = "<group>"; };
+		1980A5ED237D4370006A22EE /* streaming_workbook_writer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = streaming_workbook_writer.hpp; sourceTree = "<group>"; };
+		1980A5EE237D4370006A22EE /* streaming_workbook_reader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = streaming_workbook_reader.hpp; sourceTree = "<group>"; };
+		1980A5EF237D4370006A22EE /* document_security.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = document_security.hpp; sourceTree = "<group>"; };
+		1980A5F0237D4370006A22EE /* liblibstudxml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblibstudxml.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1940E067237695E500C52B8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1980A5F1237D4370006A22EE /* libxlntd.a in Frameworks */,
+				1980A5F2237D4370006A22EE /* liblibstudxml.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1940E061237695E500C52B8B = {
+			isa = PBXGroup;
+			children = (
+				1980A5A5237D436F006A22EE /* XLNT */,
+				1940E06C237695E500C52B8B /* Language Tool */,
+				1940E06B237695E500C52B8B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1940E06B237695E500C52B8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1940E06A237695E500C52B8B /* Language Tool.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1940E06C237695E500C52B8B /* Language Tool */ = {
+			isa = PBXGroup;
+			children = (
+				1940E0822376965A00C52B8B /* UserData.swift */,
+				192C50192379815C00BA5C37 /* Convert.swift */,
+				1940E06D237695E500C52B8B /* AppDelegate.swift */,
+				1940E06F237695E500C52B8B /* ContentView.swift */,
+				192C501523796C7100BA5C37 /* ToolTypeView.swift */,
+				192C50172379719700BA5C37 /* DragableView.swift */,
+				1927447C237AC72D00E42686 /* WaittingView.swift */,
+				1940E071237695E700C52B8B /* Assets.xcassets */,
+				1940E076237695E700C52B8B /* Main.storyboard */,
+				1940E079237695E700C52B8B /* Info.plist */,
+				1940E07A237695E700C52B8B /* Language_Tool.entitlements */,
+				1940E073237695E700C52B8B /* Preview Content */,
+			);
+			path = "Language Tool";
+			sourceTree = "<group>";
+		};
+		1940E073237695E700C52B8B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1940E074237695E700C52B8B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1980A5A5237D436F006A22EE /* XLNT */ = {
+			isa = PBXGroup;
+			children = (
+				19588DB1237D62E00020E867 /* XLNT.h */,
+				19588DB2237D62E00020E867 /* XLNT.mm */,
+				1980A5A6237D436F006A22EE /* libxlntd.a */,
+				1980A5A7237D436F006A22EE /* xlnt */,
+				1980A5F0237D4370006A22EE /* liblibstudxml.a */,
+				19588DB0237D62E00020E867 /* Language Tool-Bridging-Header.h */,
+			);
+			path = XLNT;
+			sourceTree = "<group>";
+		};
+		1980A5A7237D436F006A22EE /* xlnt */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5A8237D436F006A22EE /* packaging */,
+				1980A5AD237D436F006A22EE /* worksheet */,
+				1980A5C2237D436F006A22EE /* utils */,
+				1980A5CE237D436F006A22EE /* xlnt.hpp */,
+				1980A5CF237D436F006A22EE /* cell */,
+				1980A5D8237D4370006A22EE /* styles */,
+				1980A5E3237D4370006A22EE /* xlnt_config.hpp */,
+				1980A5E4237D4370006A22EE /* workbook */,
+			);
+			path = xlnt;
+			sourceTree = "<group>";
+		};
+		1980A5A8237D436F006A22EE /* packaging */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5A9237D436F006A22EE /* manifest.hpp */,
+				1980A5AA237D436F006A22EE /* uri.hpp */,
+				1980A5AB237D436F006A22EE /* relationship.hpp */,
+				1980A5AC237D436F006A22EE /* ext_list.hpp */,
+			);
+			path = packaging;
+			sourceTree = "<group>";
+		};
+		1980A5AD237D436F006A22EE /* worksheet */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5AE237D436F006A22EE /* range_iterator.hpp */,
+				1980A5AF237D436F006A22EE /* print_options.hpp */,
+				1980A5B0237D436F006A22EE /* sheet_view.hpp */,
+				1980A5B1237D436F006A22EE /* header_footer.hpp */,
+				1980A5B2237D436F006A22EE /* sheet_protection.hpp */,
+				1980A5B3237D436F006A22EE /* selection.hpp */,
+				1980A5B4237D436F006A22EE /* phonetic_pr.hpp */,
+				1980A5B5237D436F006A22EE /* major_order.hpp */,
+				1980A5B6237D436F006A22EE /* pane.hpp */,
+				1980A5B7237D436F006A22EE /* cell_vector.hpp */,
+				1980A5B8237D436F006A22EE /* row_properties.hpp */,
+				1980A5B9237D436F006A22EE /* range_reference.hpp */,
+				1980A5BA237D436F006A22EE /* page_setup.hpp */,
+				1980A5BB237D436F006A22EE /* column_properties.hpp */,
+				1980A5BC237D436F006A22EE /* sheet_format_properties.hpp */,
+				1980A5BD237D436F006A22EE /* page_margins.hpp */,
+				1980A5BE237D436F006A22EE /* range.hpp */,
+				1980A5BF237D436F006A22EE /* sheet_pr.hpp */,
+				1980A5C0237D436F006A22EE /* cell_iterator.hpp */,
+				1980A5C1237D436F006A22EE /* worksheet.hpp */,
+			);
+			path = worksheet;
+			sourceTree = "<group>";
+		};
+		1980A5C2237D436F006A22EE /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5C3237D436F006A22EE /* timedelta.hpp */,
+				1980A5C4237D436F006A22EE /* datetime.hpp */,
+				1980A5C5237D436F006A22EE /* time.hpp */,
+				1980A5C6237D436F006A22EE /* variant.hpp */,
+				1980A5C7237D436F006A22EE /* serialisation_utils.hpp */,
+				1980A5C8237D436F006A22EE /* path.hpp */,
+				1980A5C9237D436F006A22EE /* date.hpp */,
+				1980A5CA237D436F006A22EE /* optional.hpp */,
+				1980A5CB237D436F006A22EE /* calendar.hpp */,
+				1980A5CC237D436F006A22EE /* exceptions.hpp */,
+				1980A5CD237D436F006A22EE /* scoped_enum_hash.hpp */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		1980A5CF237D436F006A22EE /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5D0237D436F006A22EE /* rich_text_run.hpp */,
+				1980A5D1237D436F006A22EE /* cell_type.hpp */,
+				1980A5D2237D436F006A22EE /* hyperlink.hpp */,
+				1980A5D3237D436F006A22EE /* cell.hpp */,
+				1980A5D4237D4370006A22EE /* cell_reference.hpp */,
+				1980A5D5237D4370006A22EE /* index_types.hpp */,
+				1980A5D6237D4370006A22EE /* comment.hpp */,
+				1980A5D7237D4370006A22EE /* rich_text.hpp */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		1980A5D8237D4370006A22EE /* styles */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5D9237D4370006A22EE /* alignment.hpp */,
+				1980A5DA237D4370006A22EE /* border.hpp */,
+				1980A5DB237D4370006A22EE /* number_format.hpp */,
+				1980A5DC237D4370006A22EE /* fill.hpp */,
+				1980A5DD237D4370006A22EE /* font.hpp */,
+				1980A5DE237D4370006A22EE /* protection.hpp */,
+				1980A5DF237D4370006A22EE /* color.hpp */,
+				1980A5E0237D4370006A22EE /* format.hpp */,
+				1980A5E1237D4370006A22EE /* style.hpp */,
+				1980A5E2237D4370006A22EE /* conditional_format.hpp */,
+			);
+			path = styles;
+			sourceTree = "<group>";
+		};
+		1980A5E4237D4370006A22EE /* workbook */ = {
+			isa = PBXGroup;
+			children = (
+				1980A5E5237D4370006A22EE /* workbook_view.hpp */,
+				1980A5E6237D4370006A22EE /* workbook.hpp */,
+				1980A5E7237D4370006A22EE /* external_book.hpp */,
+				1980A5E8237D4370006A22EE /* theme.hpp */,
+				1980A5E9237D4370006A22EE /* metadata_property.hpp */,
+				1980A5EA237D4370006A22EE /* worksheet_iterator.hpp */,
+				1980A5EB237D4370006A22EE /* named_range.hpp */,
+				1980A5EC237D4370006A22EE /* calculation_properties.hpp */,
+				1980A5ED237D4370006A22EE /* streaming_workbook_writer.hpp */,
+				1980A5EE237D4370006A22EE /* streaming_workbook_reader.hpp */,
+				1980A5EF237D4370006A22EE /* document_security.hpp */,
+			);
+			path = workbook;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1940E069237695E500C52B8B /* Language Tool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1940E07D237695E700C52B8B /* Build configuration list for PBXNativeTarget "Language Tool" */;
+			buildPhases = (
+				1940E066237695E500C52B8B /* Sources */,
+				1940E067237695E500C52B8B /* Frameworks */,
+				1940E068237695E500C52B8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Language Tool";
+			productName = "Language Tool";
+			productReference = 1940E06A237695E500C52B8B /* Language Tool.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1940E062237695E500C52B8B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1120;
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = LyongY;
+				TargetAttributes = {
+					1940E069237695E500C52B8B = {
+						CreatedOnToolsVersion = 11.2;
+						LastSwiftMigration = 1120;
+					};
+				};
+			};
+			buildConfigurationList = 1940E065237695E500C52B8B /* Build configuration list for PBXProject "Language Tool" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1940E061237695E500C52B8B;
+			productRefGroup = 1940E06B237695E500C52B8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1940E069237695E500C52B8B /* Language Tool */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1940E068237695E500C52B8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1940E078237695E700C52B8B /* Main.storyboard in Resources */,
+				1940E075237695E700C52B8B /* Preview Assets.xcassets in Resources */,
+				1940E072237695E700C52B8B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1940E066237695E500C52B8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				192C501623796C7100BA5C37 /* ToolTypeView.swift in Sources */,
+				1940E0832376965A00C52B8B /* UserData.swift in Sources */,
+				1940E070237695E500C52B8B /* ContentView.swift in Sources */,
+				1940E06E237695E500C52B8B /* AppDelegate.swift in Sources */,
+				192C501A2379815C00BA5C37 /* Convert.swift in Sources */,
+				19588DB3237D62E00020E867 /* XLNT.mm in Sources */,
+				1927447D237AC72D00E42686 /* WaittingView.swift in Sources */,
+				192C50182379719700BA5C37 /* DragableView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1940E076237695E700C52B8B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1940E077237695E700C52B8B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1940E07B237695E700C52B8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1940E07C237695E700C52B8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		1940E07E237695E700C52B8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Language Tool/Language_Tool.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Language Tool/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/XLNT\"";
+				INFOPLIST_FILE = "Language Tool/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XLNT",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "LyongY.Language-Tool";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "XLNT/Language Tool-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1940E07F237695E700C52B8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Language Tool/Language_Tool.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Language Tool/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/XLNT\"";
+				INFOPLIST_FILE = "Language Tool/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XLNT",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "LyongY.Language-Tool";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "XLNT/Language Tool-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1940E065237695E500C52B8B /* Build configuration list for PBXProject "Language Tool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1940E07B237695E700C52B8B /* Debug */,
+				1940E07C237695E700C52B8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1940E07D237695E700C52B8B /* Build configuration list for PBXNativeTarget "Language Tool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1940E07E237695E700C52B8B /* Debug */,
+				1940E07F237695E700C52B8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1940E062237695E500C52B8B /* Project object */;
+}
