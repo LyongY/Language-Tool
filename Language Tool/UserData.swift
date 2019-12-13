@@ -57,13 +57,13 @@ class UserData: NSObject, ObservableObject {
             ToolType(title: "Excel 更新 Excel", array: [
                 DragableModel(title: "以此文件为标准(客户给的)",
                               type: .file,
-                              path: "/Users/yly/Desktop/uuu/example.xlsx"),
+                              path: "/Users/yly/Desktop/test update excel/工作簿1.xlsx"),
                 DragableModel(title: "更新到此文件上(中性的)",
                               type: .file,
-                              path: "/Users/yly/Desktop/uuu/example.xlsx"),
+                              path: "/Users/yly/Desktop/test update excel/中性语言.xlsx"),
                 DragableModel(title: "输出目录",
                               type: .directory,
-                              path: "/Users/yly/Desktop/uuu"),
+                              path: "/Users/yly/Desktop/test update excel"),
             ]),
             ToolType(title: "Excel 转 String", array: [
                 DragableModel(title: "Source",
@@ -101,7 +101,7 @@ class UserData: NSObject, ObservableObject {
         return nil
     }
     
-    @Published var selectedTitle = "Excel 转 String"
+    @Published var selectedTitle = "Excel 更新 Excel"
 
     @Published var waitting = false
     @Published var process = 30.0

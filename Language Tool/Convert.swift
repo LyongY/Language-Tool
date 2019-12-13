@@ -106,39 +106,100 @@ class XlsxUpdateXlsx: Convert {
     var updatePath: String = "/"
     var targetPath: String = "/"
 
+    func readData(worksheet: XLWorksheet) -> Array<(id: String, value: Array<(language: String, value: String)>)> {
+        var data: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        let cols = worksheet.colNum()
+        let rows = worksheet.rowNum()
+        for row in 2...rows {
+            let key = worksheet.cell(withCol: 1, row: row).stringValue
+            data.append((id: key, value: []))
+            for col in 2...cols {
+                let language = worksheet.cell(withCol: col, row: 1).stringValue
+                let value = worksheet.cell(withCol: col, row: row).stringValue
+                
+                var valueArr = data[Int(row) - 2].value
+                let languageTuple = (language: language, value: value)
+                valueArr.append(languageTuple)
+                
+                data[Int(row) - 2].value = valueArr
+            }
+        }
+        return data;
+    }
+    
     func start() {
-        sourcePath = self.userData.selected!.array[0].path
-        updatePath = self.userData.selected!.array[1].path
-        targetPath = self.userData.selected!.array[2].path + "/更新后的文件.xlsx"
+        sourcePath = self.userData.selected!.array[0].path // 客户给的语言
+        updatePath = self.userData.selected!.array[1].path // 中性的语言
+        targetPath = self.userData.selected!.array[2].path + "/更新后的文件\(Date()).xlsx"
         assert(!FileManager.default.fileExists(atPath: targetPath), "已存在文件, 请更换文件夹")
         
-        print(Date())
-
-        updatePath = "/Users/yly/Documents/Programs/SVNPrograms/Resources/Language/中性/中性语言.xlsx"
-        let sourcebook = XLWorkbook(path: sourcePath)
-        let updatebook = XLWorkbook(path: updatePath)
-        let targetbook = XLWorkbook(path: targetPath)
-
-        print(Date())
-
-        let sourcesheet = sourcebook.sheet(with: 0)
-        let updatesheet = updatebook.sheet(with: 0)
-        let targetsheet = targetbook.sheet(with: 0)
-
-        let cols = updatesheet.colNum()
-        let rows = updatesheet.rowNum()
-        print(Date())
-        for col in 1...cols {
-            for row in 1...rows {
-                autoreleasepool {
-//                    let str = targetsheet.cell(withCol: col, row: row)
-                    targetsheet.cell(withCol: col, row: row).stringValue = updatesheet.cell(withCol: col, row: row).stringValue
+        // 读取客户语言文件
+        var sourceData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        autoreleasepool {
+            let sourcebook = XLWorkbook(path: sourcePath)
+            let sourcesheet = sourcebook.sheet(with: 0)
+            sourceData = self.readData(worksheet: sourcesheet)
+        }
+        
+        // 读取中性语言文件
+        var updateData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        autoreleasepool {
+            let updatebook = XLWorkbook(path: updatePath)
+            let updatesheet = updatebook.sheet(with: 0)
+            updateData = self.readData(worksheet: updatesheet)
+        }
+        
+        // 更新读取的数据
+        for touple in sourceData {
+            let key = touple.id
+            for languageTouple in touple.value {
+                let language = languageTouple.language
+                let value = languageTouple.value
+                
+                for keyIndex in 0..<updateData.count {
+                    let updateTouple = updateData[keyIndex]
+                    let updateKey = updateTouple.id
+                    if updateKey == key {
+                        for languageIndex in 0..<updateTouple.value.count {
+                            let updateLanguageTouple = updateData[keyIndex].value[languageIndex]
+                            let updateLanguage = updateLanguageTouple.language
+                            if updateLanguage == language {
+                                updateData[keyIndex].value[languageIndex].value = value
+                            }
+                        }
+                    }
                 }
             }
         }
-        print(Date())
+        
+        // 写入新文件
+        let targetbook = XLWorkbook(path: targetPath)
+        let targetsheet = targetbook.sheet(with: 0)
+        targetsheet.cell(withCol: 1, row: 1).stringValue = "KEY"
+        let updateCols = updateData.first!.value.count
+        for item in 0..<updateCols {
+            let language = updateData.first!.value.first!.language
+            targetsheet.cell(withCol: UInt32(item) + 2, row: 1).stringValue = language
+        }
+        for row in 0..<updateData.count {
+            let id = updateData[row].id
+            
+            for iii in 0..<updateCols {
+                let language = targetsheet.cell(withCol: UInt32(iii) + 2, row: 1).stringValue
+                
+                let xlsxCol = iii + 2
+                let xlsxRow = row + 2
+                for languageTouple in updateData[row].value {
+                    if languageTouple.language == language {
+                        targetsheet.cell(withCol: UInt32(xlsxCol), row: UInt32(xlsxRow)).stringValue = languageTouple.value
+                        break
+                    }
+                }
 
-
+            }
+            
+        }
+        targetbook.save()
     }
 }
 
@@ -297,7 +358,12 @@ class CreatApplicationIcon: Convert {
 }
 
 func recreateFile(path: String) -> Bool {
-    if FileManager.default.fileExists(atPath: path) {
+    var isDirectory: ObjCBool = false
+    if FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory) {
+        if isDirectory.boolValue {
+            print("不能删除文件夹")
+            return false
+        }
         try! FileManager.default.removeItem(atPath: path)
     }
     
