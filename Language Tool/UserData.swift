@@ -81,6 +81,17 @@ class UserData: NSObject, ObservableObject {
                               type: .directory,
                               path: "/Users/yly/Desktop/xlsx to string"),
             ]),
+            ToolType(title: "找出客户缺失语言", array: [
+                DragableModel(title: "客户语言",
+                              type: .file,
+                              path: "/Users/yly/Desktop/test update excel/工作簿1.xlsx"),
+                DragableModel(title: "中性语言",
+                              type: .file,
+                              path: "/Users/yly/Desktop/test update excel/工作簿2.xlsx"),
+                DragableModel(title: "输出目录",
+                              type: .directory,
+                              path: "/Users/yly/Desktop/test update excel"),
+            ]),
             ToolType(title: "1024.png 生成各尺寸icon", array: [
                 DragableModel(title: "拖入1024图片",
                               type: .file,
@@ -101,7 +112,7 @@ class UserData: NSObject, ObservableObject {
         return nil
     }
     
-    @Published var selectedTitle = "Excel 更新 Excel"
+    @Published var selectedTitle = "找出客户缺失语言"
 
     @Published var waitting = false
     @Published var process = 30.0

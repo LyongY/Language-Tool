@@ -27,6 +27,8 @@ class Convert: NSObject {
             XlsxToString(userdata).start()
         case "Excel 转 XML":
             XlsxToXml(userdata).start()
+        case "找出客户缺失语言":
+            XlsxFindMissingKey(userdata).start()
         case "1024.png 生成各尺寸icon":
             CreatApplicationIcon(userdata).start()
         default:
@@ -34,6 +36,56 @@ class Convert: NSObject {
         }
     }
     
+    func readData(worksheet: XLWorksheet) -> Array<(id: String, value: Array<(language: String, value: String)>)> {
+        var data: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        let cols = worksheet.colNum()
+        let rows = worksheet.rowNum()
+        for row in 2...rows {
+            let key = worksheet.cell(withCol: 1, row: row).stringValue
+            data.append((id: key, value: []))
+            for col in 2...cols {
+                let language = worksheet.cell(withCol: col, row: 1).stringValue
+                let value = worksheet.cell(withCol: col, row: row).stringValue
+                
+                var valueArr = data[Int(row) - 2].value
+                let languageTuple = (language: language, value: value)
+                valueArr.append(languageTuple)
+                
+                data[Int(row) - 2].value = valueArr
+            }
+        }
+        return data;
+    }
+    
+    func writeDataToExcel(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
+        let targetbook = XLWorkbook(path: targetPath)
+        let targetsheet = targetbook.sheet(with: 0)
+        targetsheet.cell(withCol: 1, row: 1).stringValue = "KEY"
+        let updateCols = data.first!.value.count
+        for item in 0..<updateCols {
+            let language = data.first!.value[item].language
+            targetsheet.cell(withCol: UInt32(item) + 2, row: 1).stringValue = language
+        }
+        for row in 0..<data.count {
+            let key = data[row].id
+            targetsheet.cell(withCol: 1, row: UInt32(row) + 2).stringValue = key
+            for iii in 0..<updateCols {
+                let language = targetsheet.cell(withCol: UInt32(iii) + 2, row: 1).stringValue
+                
+                let xlsxCol = iii + 2
+                let xlsxRow = row + 2
+                for languageTouple in data[row].value {
+                    if languageTouple.language == language {
+                        targetsheet.cell(withCol: UInt32(xlsxCol), row: UInt32(xlsxRow)).stringValue = languageTouple.value
+                        break
+                    }
+                }
+
+            }
+            
+        }
+        targetbook.save()
+    }
 }
 
 class XmlToString: Convert, XMLParserDelegate {
@@ -105,27 +157,6 @@ class XlsxUpdateXlsx: Convert {
     var sourcePath: String = "/"
     var updatePath: String = "/"
     var targetPath: String = "/"
-
-    func readData(worksheet: XLWorksheet) -> Array<(id: String, value: Array<(language: String, value: String)>)> {
-        var data: Array<(id: String, value: Array<(language: String, value: String)>)> = []
-        let cols = worksheet.colNum()
-        let rows = worksheet.rowNum()
-        for row in 2...rows {
-            let key = worksheet.cell(withCol: 1, row: row).stringValue
-            data.append((id: key, value: []))
-            for col in 2...cols {
-                let language = worksheet.cell(withCol: col, row: 1).stringValue
-                let value = worksheet.cell(withCol: col, row: row).stringValue
-                
-                var valueArr = data[Int(row) - 2].value
-                let languageTuple = (language: language, value: value)
-                valueArr.append(languageTuple)
-                
-                data[Int(row) - 2].value = valueArr
-            }
-        }
-        return data;
-    }
     
     func start() {
         sourcePath = self.userData.selected!.array[0].path // 客户给的语言
@@ -173,33 +204,7 @@ class XlsxUpdateXlsx: Convert {
         }
         
         // 写入新文件
-        let targetbook = XLWorkbook(path: targetPath)
-        let targetsheet = targetbook.sheet(with: 0)
-        targetsheet.cell(withCol: 1, row: 1).stringValue = "KEY"
-        let updateCols = updateData.first!.value.count
-        for item in 0..<updateCols {
-            let language = updateData.first!.value[item].language
-            targetsheet.cell(withCol: UInt32(item) + 2, row: 1).stringValue = language
-        }
-        for row in 0..<updateData.count {
-            let key = updateData[row].id
-            targetsheet.cell(withCol: 1, row: UInt32(row) + 2).stringValue = key
-            for iii in 0..<updateCols {
-                let language = targetsheet.cell(withCol: UInt32(iii) + 2, row: 1).stringValue
-                
-                let xlsxCol = iii + 2
-                let xlsxRow = row + 2
-                for languageTouple in updateData[row].value {
-                    if languageTouple.language == language {
-                        targetsheet.cell(withCol: UInt32(xlsxCol), row: UInt32(xlsxRow)).stringValue = languageTouple.value
-                        break
-                    }
-                }
-
-            }
-            
-        }
-        targetbook.save()
+        self.writeDataToExcel(data: updateData, targetPath: targetPath)
     }
 }
 
@@ -273,6 +278,51 @@ class XlsxToXml: Convert {
             }
             handle?.write("</resources>".data(using: .utf8)!)
         }
+    }
+}
+
+class XlsxFindMissingKey: Convert {
+    var sourcePath: String = "/"
+    var updatePath: String = "/"
+    var targetPath: String = "/"
+    
+    func start() {
+        sourcePath = self.userData.selected!.array[0].path // 客户给的语言
+        updatePath = self.userData.selected!.array[1].path // 中性的语言
+        targetPath = self.userData.selected!.array[2].path + "/查询结果\(Date()).xlsx"
+        assert(!FileManager.default.fileExists(atPath: targetPath), "已存在文件, 请更换文件夹")
+        
+        // 读取客户语言文件
+        var sourceData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        autoreleasepool {
+            let sourcebook = XLWorkbook(path: sourcePath)
+            let sourcesheet = sourcebook.sheet(with: 0)
+            sourceData = self.readData(worksheet: sourcesheet)
+        }
+        
+        // 读取中性语言文件
+        var updateData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        autoreleasepool {
+            let updatebook = XLWorkbook(path: updatePath)
+            let updatesheet = updatebook.sheet(with: 0)
+            updateData = self.readData(worksheet: updatesheet)
+        }
+        
+        var missingData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        for updateItem in updateData {
+            var find = false
+            for sourceItem in sourceData {
+                if updateItem.id == sourceItem.id {
+                    find = true
+                    break
+                }
+            }
+            if !find {
+                missingData.append(updateItem)
+            }
+        }
+        
+        self.writeDataToExcel(data: missingData, targetPath: targetPath)
     }
 }
 
