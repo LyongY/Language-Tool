@@ -178,12 +178,12 @@ class XlsxUpdateXlsx: Convert {
         targetsheet.cell(withCol: 1, row: 1).stringValue = "KEY"
         let updateCols = updateData.first!.value.count
         for item in 0..<updateCols {
-            let language = updateData.first!.value.first!.language
+            let language = updateData.first!.value[item].language
             targetsheet.cell(withCol: UInt32(item) + 2, row: 1).stringValue = language
         }
         for row in 0..<updateData.count {
-            let id = updateData[row].id
-            
+            let key = updateData[row].id
+            targetsheet.cell(withCol: 1, row: UInt32(row) + 2).stringValue = key
             for iii in 0..<updateCols {
                 let language = targetsheet.cell(withCol: UInt32(iii) + 2, row: 1).stringValue
                 
