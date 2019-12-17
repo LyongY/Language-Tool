@@ -29,6 +29,8 @@ class Convert: NSObject {
             XlsxToXml(userdata).start()
         case "找出客户缺失语言":
             XlsxFindMissingKey(userdata).start()
+        case "CamView Plus语言":
+            CamViewPlusConvert(userdata).start()
         case "1024.png 生成各尺寸icon":
             CreatApplicationIcon(userdata).start()
         default:
@@ -85,6 +87,67 @@ class Convert: NSObject {
             
         }
         targetbook.save()
+    }
+    
+    func writeDataToString(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
+        for i in 0..<data.first!.value.count {
+            let language = data.first!.value[i].language
+            
+            let filePath = targetPath + "/\(language).lproj/Localizable.strings"
+            if !recreateFile(path: filePath) {
+                continue
+            }
+            let handle = FileHandle(forWritingAtPath: filePath)
+            handle?.seekToEndOfFile()
+            for row in 0..<data.count {
+                var languageIndex = 0
+                for j in 0..<data[row].value.count {
+                    if data[row].value[j].language == language {
+                        languageIndex = j
+                    }
+                }
+                let value = data[row].value[languageIndex].value
+                let key = data[row].id
+
+                if key == "IDS_PASSWORD_RULES_CONTENT" {
+                    continue
+                }
+                handle?.write("\"".data(using: .utf8)!)
+                handle?.write(key.data(using: .utf8)!)
+                handle?.write("\" = \"".data(using: .utf8)!)
+                handle?.write(value.data(using: .utf8)!)
+                handle?.write("\";\n".data(using: .utf8)!)
+            }
+        }
+    }
+    
+    func writeDataToXML(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
+        for i in 0..<data.first!.value.count {
+            let language = data.first!.value[i].language
+
+            let filePath = targetPath + "/\(language)/strings.xml"
+            if !recreateFile(path: filePath) {
+                continue
+            }
+            let handle = FileHandle(forWritingAtPath: filePath)
+            handle?.seekToEndOfFile()
+            handle?.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n".data(using: .utf8)!)
+            handle?.write("<resources>\n".data(using: .utf8)!)
+            for row in 0..<data.count {
+                var languageIndex = 0
+                for j in 0..<data[row].value.count {
+                    if data[row].value[j].language == language {
+                        languageIndex = j
+                    }
+                }
+                var value = data[row].value[languageIndex].value
+                let key = data[row].id
+
+                value = value.replacingOccurrences(of: "&", with: "&amp;")
+                handle?.write("    <string name=\"\(key)\">\(value)</string>\n".data(using: .utf8)!)
+            }
+            handle?.write("</resources>".data(using: .utf8)!)
+        }
     }
 }
 
@@ -219,30 +282,9 @@ class XlsxToString: Convert {
 
         let sourcebook = XLWorkbook(path: sourcePath)
         let sourcesheet = sourcebook.sheet(with: 0)
-
-        let cols = sourcesheet.colNum()
-        let rows = sourcesheet.rowNum()
-        for col in 2...cols {
-            let filePath = targetPath + "/\(sourcesheet.cell(withCol: col, row: 1).stringValue).lproj/Localizable.strings"
-            if !recreateFile(path: filePath) {
-                continue
-            }
-            let handle = FileHandle(forWritingAtPath: filePath)
-            handle?.seekToEndOfFile()
-            for row in 2...rows {
-                let key = sourcesheet.cell(withCol: UInt32(1), row: row).stringValue
-                let value = sourcesheet.cell(withCol: col, row: row).stringValue
-                if key == "IDS_PASSWORD_RULES_CONTENT" {
-                    continue
-                }
-                handle?.write("\"".data(using: .utf8)!)
-                handle?.write(key.data(using: .utf8)!)
-                handle?.write("\" = \"".data(using: .utf8)!)
-                handle?.write(value.data(using: .utf8)!)
-                handle?.write("\";\n".data(using: .utf8)!)
-            }
-        }
-
+        
+        let data = self.readData(worksheet: sourcesheet)
+        self.writeDataToString(data: data, targetPath: targetPath)
     }
 }
 
@@ -258,26 +300,8 @@ class XlsxToXml: Convert {
         let sourcebook = XLWorkbook(path: sourcePath)
         let sourcesheet = sourcebook.sheet(with: 0)
         
-        let cols = sourcesheet.colNum()
-        let rows = sourcesheet.rowNum()
-        
-        for col in 2...cols {
-            let filePath = targetPath + "/XML/\(sourcesheet.cell(withCol: col, row: 1).stringValue).xml"
-            if !recreateFile(path: filePath) {
-                continue
-            }
-            let handle = FileHandle(forWritingAtPath: filePath)
-            handle?.seekToEndOfFile()
-            handle?.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n".data(using: .utf8)!)
-            handle?.write("<resources>\n".data(using: .utf8)!)
-            for row in 2...rows {
-                let key = sourcesheet.cell(withCol: UInt32(1), row: row).stringValue
-                var value = sourcesheet.cell(withCol: col, row: row).stringValue
-                value = value.replacingOccurrences(of: "&", with: "&amp;")
-                handle?.write("    <string name=\"\(key)\">\(value)</string>\n".data(using: .utf8)!)
-            }
-            handle?.write("</resources>".data(using: .utf8)!)
-        }
+        let data = self.readData(worksheet: sourcesheet)
+        self.writeDataToXML(data: data, targetPath: targetPath)
     }
 }
 
@@ -323,6 +347,43 @@ class XlsxFindMissingKey: Convert {
         }
         
         self.writeDataToExcel(data: missingData, targetPath: targetPath)
+    }
+}
+
+class CamViewPlusConvert: Convert {
+    var sourcePath: String = "/"
+    var appPath: String = "/"
+    var webPath: String = "/"
+    
+    func start() {
+        sourcePath = self.userData.selected!.array[0].path // Excel
+        appPath = self.userData.selected!.array[1].path // app路径
+        webPath = self.userData.selected!.array[2].path // web路径
+        
+        let workbook = XLWorkbook(path: sourcePath)
+        let worksheet = workbook.sheet(with: 0)
+        let data = self.readData(worksheet: worksheet)
+        
+        var appData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        var webData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        
+        var isAppKey = true
+        for i in 0..<data.count {
+            let item = data[i]
+            
+            if item.id.count <= 0 {
+                isAppKey = false
+            }
+            
+            if isAppKey {
+                appData.append(item)
+            } else {
+                webData.append(item)
+            }
+        }
+
+        self.writeDataToString(data: appData, targetPath: appPath)
+        self.writeDataToXML(data: webData, targetPath: webPath)
     }
 }
 
