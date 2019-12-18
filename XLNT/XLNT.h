@@ -15,8 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - XLWorkbook
 @interface XLWorkbook : NSObject
+@property (nonatomic, copy) NSString *path;
 
-- (instancetype)initWithPath:(NSString *)path;
+- (nullable instancetype)initWithPath:(NSString *)path;
 
 - (XLWorksheet *)sheetWith:(unsigned int)index;
 

@@ -12,16 +12,24 @@ struct WaittingView: View {
     @EnvironmentObject var userData: UserData
 
     var body: some View {
-        VStack(alignment: .center, spacing: 50) {
+        HStack {
             Spacer()
-            WaittingHud()
-            if self.userData.process > 0 {
-                WaittingProcess()
+            VStack(alignment: .center, spacing: 50) {
+                Spacer()
+                WaittingHud()
+                if self.userData.process > 0 {
+                    WaittingProcess()
+                }
+                Spacer()
             }
+            .padding()
             Spacer()
         }
-        .padding()
         .background(Color.black.opacity(0.8))
+        .transition(.asymmetric(insertion: .opacity, removal: .identity))
+        .animation(.linear(duration: 0.3))
+
+
 
     }
 }

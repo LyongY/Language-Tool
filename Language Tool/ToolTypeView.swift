@@ -21,6 +21,9 @@ struct ToolTypeView: View {
             Spacer()
         }
             .onTapGesture {
+                if self.userData.waitting {
+                    return
+                }
                 self.userData.selectedTitle = self.toolType.title
         }
 

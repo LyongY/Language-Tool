@@ -20,6 +20,7 @@
 		19588DB3237D62E00020E867 /* XLNT.mm in Sources */ = {isa = PBXBuildFile; fileRef = 19588DB2237D62E00020E867 /* XLNT.mm */; };
 		1980A5F1237D4370006A22EE /* libxlntd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1980A5A6237D436F006A22EE /* libxlntd.a */; };
 		1980A5F2237D4370006A22EE /* liblibstudxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1980A5F0237D4370006A22EE /* liblibstudxml.a */; };
+		198B9D0623A9F1BC004AB59C /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198B9D0523A9F1BC004AB59C /* ResultView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,6 +108,7 @@
 		1980A5EE237D4370006A22EE /* streaming_workbook_reader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = streaming_workbook_reader.hpp; sourceTree = "<group>"; };
 		1980A5EF237D4370006A22EE /* document_security.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = document_security.hpp; sourceTree = "<group>"; };
 		1980A5F0237D4370006A22EE /* liblibstudxml.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = liblibstudxml.a; sourceTree = "<group>"; };
+		198B9D0523A9F1BC004AB59C /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				192C501523796C7100BA5C37 /* ToolTypeView.swift */,
 				192C50172379719700BA5C37 /* DragableView.swift */,
 				1927447C237AC72D00E42686 /* WaittingView.swift */,
+				198B9D0523A9F1BC004AB59C /* ResultView.swift */,
 				1940E071237695E700C52B8B /* Assets.xcassets */,
 				1940E076237695E700C52B8B /* Main.storyboard */,
 				1940E079237695E700C52B8B /* Info.plist */,
@@ -374,6 +377,7 @@
 			files = (
 				192C501623796C7100BA5C37 /* ToolTypeView.swift in Sources */,
 				1940E0832376965A00C52B8B /* UserData.swift in Sources */,
+				198B9D0623A9F1BC004AB59C /* ResultView.swift in Sources */,
 				1940E070237695E500C52B8B /* ContentView.swift in Sources */,
 				1940E06E237695E500C52B8B /* AppDelegate.swift in Sources */,
 				192C501A2379815C00BA5C37 /* Convert.swift in Sources */,

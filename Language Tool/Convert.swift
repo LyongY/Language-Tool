@@ -18,24 +18,40 @@ class Convert: NSObject {
     }
     
     static func convert(with userdata: UserData) {
-        switch userdata.selectedTitle {
-        case "XML 转 String":
-            XmlToString(userdata).start()
-        case "Excel 更新 Excel":
-            XlsxUpdateXlsx(userdata).start()
-        case "Excel 转 String":
-            XlsxToString(userdata).start()
-        case "Excel 转 XML":
-            XlsxToXml(userdata).start()
-        case "找出客户缺失语言":
-            XlsxFindMissingKey(userdata).start()
-        case "CamView Plus语言":
-            CamViewPlusConvert(userdata).start()
-        case "1024.png 生成各尺寸icon":
-            CreatApplicationIcon(userdata).start()
-        default:
+        if userdata.waitting {
             return
         }
+        userdata.waitting = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            switch userdata.selectedTitle {
+            case "XML 转 String":
+                XmlToString(userdata).start()
+            case "Excel 更新 Excel":
+                XlsxUpdateXlsx(userdata).start()
+            case "Excel 转 String":
+                XlsxToString(userdata).start()
+            case "Excel 转 XML":
+                XlsxToXml(userdata).start()
+            case "找出客户缺失语言":
+                XlsxFindMissingKey(userdata).start()
+            case "CamView Plus语言":
+                CamViewPlusConvert(userdata).start()
+            case "1024.png 生成各尺寸icon":
+                CreatApplicationIcon(userdata).start()
+            default:
+                return
+            }
+        }
+    }
+    
+    func complete() {
+        self.userData.waitting = false
+        self.userData.result = "任务已完成"
+    }
+    
+    func openExcelFailed(path: String) {
+        self.userData.waitting = false
+        self.userData.result = "打开 \(path) 失败"
     }
     
     func readData(worksheet: XLWorksheet) -> Array<(id: String, value: Array<(language: String, value: String)>)> {
@@ -60,7 +76,8 @@ class Convert: NSObject {
     }
     
     func writeDataToExcel(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
-        let targetbook = XLWorkbook(path: targetPath)
+        let targetbook = XLWorkbook()
+        targetbook.path = targetPath
         let targetsheet = targetbook.sheet(with: 0)
         targetsheet.cell(withCol: 1, row: 1).stringValue = "KEY"
         let updateCols = data.first!.value.count
@@ -106,7 +123,8 @@ class Convert: NSObject {
                         languageIndex = j
                     }
                 }
-                let value = data[row].value[languageIndex].value
+                var value = data[row].value[languageIndex].value
+                value = value.replacingOccurrences(of: "\"", with: "\\\"")
                 let key = data[row].id
 
                 if key == "IDS_PASSWORD_RULES_CONTENT" {
@@ -173,7 +191,7 @@ class XmlToString: Convert, XMLParserDelegate {
         } else {
             print("error")
         }
-
+        self.complete()
     }
     
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
@@ -198,9 +216,10 @@ class XmlToString: Convert, XMLParserDelegate {
         guard xmlkey != nil else {
             return
         }
+        let value = string.replacingOccurrences(of: "\"", with: "\\\"")
         let handle = FileHandle(forWritingAtPath: targetPath)
         handle?.seekToEndOfFile()
-        handle?.write(string.data(using: .utf8)!)
+        handle?.write(value.data(using: .utf8)!)
     }
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
@@ -229,19 +248,21 @@ class XlsxUpdateXlsx: Convert {
         
         // 读取客户语言文件
         var sourceData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
-        autoreleasepool {
-            let sourcebook = XLWorkbook(path: sourcePath)
-            let sourcesheet = sourcebook.sheet(with: 0)
-            sourceData = self.readData(worksheet: sourcesheet)
+        guard let sourcebook = XLWorkbook(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
         }
+        let sourcesheet = sourcebook.sheet(with: 0)
+        sourceData = self.readData(worksheet: sourcesheet)
         
         // 读取中性语言文件
         var updateData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
-        autoreleasepool {
-            let updatebook = XLWorkbook(path: updatePath)
-            let updatesheet = updatebook.sheet(with: 0)
-            updateData = self.readData(worksheet: updatesheet)
+        guard let updatebook = XLWorkbook(path: updatePath) else {
+            self.openExcelFailed(path: updatePath)
+            return
         }
+        let updatesheet = updatebook.sheet(with: 0)
+        updateData = self.readData(worksheet: updatesheet)
         
         // 更新读取的数据
         for touple in sourceData {
@@ -268,6 +289,7 @@ class XlsxUpdateXlsx: Convert {
         
         // 写入新文件
         self.writeDataToExcel(data: updateData, targetPath: targetPath)
+        self.complete()
     }
 }
 
@@ -280,11 +302,15 @@ class XlsxToString: Convert {
         sourcePath = self.userData.selected!.array[0].path
         targetPath = self.userData.selected!.array[1].path
 
-        let sourcebook = XLWorkbook(path: sourcePath)
+        guard let sourcebook = XLWorkbook(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
+        }
         let sourcesheet = sourcebook.sheet(with: 0)
         
         let data = self.readData(worksheet: sourcesheet)
         self.writeDataToString(data: data, targetPath: targetPath)
+        self.complete()
     }
 }
 
@@ -297,11 +323,15 @@ class XlsxToXml: Convert {
         sourcePath = self.userData.selected!.array[0].path
         targetPath = self.userData.selected!.array[1].path
 
-        let sourcebook = XLWorkbook(path: sourcePath)
+        guard let sourcebook = XLWorkbook(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
+        }
         let sourcesheet = sourcebook.sheet(with: 0)
         
         let data = self.readData(worksheet: sourcesheet)
         self.writeDataToXML(data: data, targetPath: targetPath)
+        self.complete()
     }
 }
 
@@ -318,19 +348,21 @@ class XlsxFindMissingKey: Convert {
         
         // 读取客户语言文件
         var sourceData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
-        autoreleasepool {
-            let sourcebook = XLWorkbook(path: sourcePath)
-            let sourcesheet = sourcebook.sheet(with: 0)
-            sourceData = self.readData(worksheet: sourcesheet)
+        guard let sourcebook = XLWorkbook(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
         }
+        let sourcesheet = sourcebook.sheet(with: 0)
+        sourceData = self.readData(worksheet: sourcesheet)
         
         // 读取中性语言文件
         var updateData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
-        autoreleasepool {
-            let updatebook = XLWorkbook(path: updatePath)
-            let updatesheet = updatebook.sheet(with: 0)
-            updateData = self.readData(worksheet: updatesheet)
+        guard let updatebook = XLWorkbook(path: updatePath) else {
+            self.openExcelFailed(path: updatePath)
+            return
         }
+        let updatesheet = updatebook.sheet(with: 0)
+        updateData = self.readData(worksheet: updatesheet)
         
         var missingData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
         for updateItem in updateData {
@@ -347,6 +379,7 @@ class XlsxFindMissingKey: Convert {
         }
         
         self.writeDataToExcel(data: missingData, targetPath: targetPath)
+        self.complete()
     }
 }
 
@@ -360,7 +393,10 @@ class CamViewPlusConvert: Convert {
         appPath = self.userData.selected!.array[1].path // app路径
         webPath = self.userData.selected!.array[2].path // web路径
         
-        let workbook = XLWorkbook(path: sourcePath)
+        guard let workbook = XLWorkbook(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
+        }
         let worksheet = workbook.sheet(with: 0)
         let data = self.readData(worksheet: worksheet)
         
@@ -384,6 +420,7 @@ class CamViewPlusConvert: Convert {
 
         self.writeDataToString(data: appData, targetPath: appPath)
         self.writeDataToXML(data: webData, targetPath: webPath)
+        self.complete()
     }
 }
 
@@ -421,7 +458,11 @@ class CreatApplicationIcon: Convert {
             (size:83.5, idiom:IdiomType.ipad, scale:2),
             (size:1024, idiom:IdiomType.ios_marketing, scale:1),
         ]
-        let sourceImage = NSImage(contentsOfFile: sourcePath)
+        
+        guard let sourceImage = NSImage(contentsOfFile: sourcePath) else {
+            openExcelFailed(path: sourcePath)
+            return
+        }
         
         let directoryPath = targetPath
         if !FileManager.default.fileExists(atPath: directoryPath) {
@@ -431,7 +472,7 @@ class CreatApplicationIcon: Convert {
             let newSize = NSSize(width: Int(tuple.size * Double(tuple.scale)), height: Int(tuple.size * Double(tuple.scale)))
             let newImage = NSImage(size: newSize)
 
-            let sourceRep = sourceImage?.bestRepresentation(for: NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height), context: nil, hints: nil)
+            let sourceRep = sourceImage.bestRepresentation(for: NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height), context: nil, hints: nil)
 
             newImage.lockFocus()
             sourceRep?.draw(in: NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
@@ -465,6 +506,8 @@ class CreatApplicationIcon: Convert {
         ]
         let jsonData = try! JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
         try! jsonData.write(to: URL(fileURLWithPath: directoryPath + "/Contents.json"), options: .atomic)
+        
+        self.complete()
     }
 }
 

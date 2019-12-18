@@ -126,5 +126,8 @@ class UserData: NSObject, ObservableObject {
     @Published var selectedTitle = "Excel 转 String"
 
     @Published var waitting = false
-    @Published var process = 30.0
+    @Published var process = 0.0
+    
+    @Published var result = ""
+
 }

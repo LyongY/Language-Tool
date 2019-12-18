@@ -15,7 +15,7 @@
 
 #pragma mark - workbook
 @interface XLWorkbook() {
-    xlnt::path _path;
+    xlnt::path _xlntpath;
     
 @public
     xlnt::workbook _workbook;
@@ -29,7 +29,6 @@
 {
     self = [super init];
     if (self) {
-        _path = xlnt::path();
         _workbook = xlnt::workbook();
     }
     return self;
@@ -38,27 +37,19 @@
 - (instancetype)initWithPath:(NSString *)path {
     self = [super init];
     if (self) {
-        _path = xlnt::path(path.UTF8String);
+        self.path = path;
         try {
-            _workbook = xlnt::workbook(_path);
+            _workbook = xlnt::workbook(_xlntpath);
         } catch(std::exception err)  {
-            _workbook = xlnt::workbook();
+            return nil;
         }
-
-        
-
-        
-        //        xlnt::workbook(<#std::istream &data#>, <#const std::string &password#>)
-//        xlnt::worksheet sheet = _workbook.sheet_by_index(0);
-//        NSInteger cols = sheet.columns().length();
-//        NSInteger rows = sheet.rows().length();
-//        for (NSInteger i = 1; i <= cols; i++) {
-//            for (NSInteger j = 1; j <=rows; j++) {
-//                sheet.cell(i, j).to_string();
-//            }
-//        }
     }
     return self;
+}
+
+- (void)setPath:(NSString *)path {
+    _path = path;
+    _xlntpath = xlnt::path(path.UTF8String);
 }
 
 - (XLWorksheet *)sheetWith:(unsigned int)index {
@@ -66,10 +57,10 @@
 }
 
 - (BOOL)save {
-    if (_path == xlnt::path()) {
+    if (_xlntpath == xlnt::path()) {
         return NO;
     }
-    _workbook.save(xlnt::path(_path));
+    _workbook.save(xlnt::path(_xlntpath));
     return YES;
 }
 

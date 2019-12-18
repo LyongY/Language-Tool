@@ -49,6 +49,11 @@ struct ContentView: View {
                 WaittingView()
                     .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
             }
+            
+            if self.userData.result.count != 0 {
+                ResultView()
+                    .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+            }
         }
         .frame(minWidth: 450, minHeight: 300)
 
