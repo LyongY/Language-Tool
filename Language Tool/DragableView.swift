@@ -14,17 +14,40 @@ struct DragableView: View {
     @State var isDragIn: Bool = false
     @ObservedObject var dragableModel: DragableModel
 
-    var body: some View {
-        
-        ZStack {
-            DragableViewRepresentable(isDragIn: $isDragIn, dragableModel: dragableModel)
-                .overlay(Rectangle().stroke(isDragIn ? Color.blue : Color.gray, lineWidth: isDragIn ? 3 : 2))
-            VStack {
-                Text(dragableModel.title)
-                Text(dragableModel.type == .file ? "拖入文件" : "拖入文件夹")
-                Text(dragableModel.path)
+    var animation: Animation? {
+        var index = 0
+        findIndex: for tooltype in userData.data {
+            index = 0
+            for dragableM in tooltype.array {
+                if dragableM == self.dragableModel {
+                    break findIndex
+                }
+                index += 1
             }
         }
+        return Animation.spring(dampingFraction: 0.8).speed(1).delay(Double(index) * 0.1)
+    }
+        
+    var transition: AnyTransition {
+        let insertion = AnyTransition.offset(x: 0, y: -500).combined(with: .move(edge: .top)).animation(animation)
+        let removalt = AnyTransition.offset(x: 500, y: 0).combined(with: .move(edge: .trailing)).animation(animation)
+        return .asymmetric(insertion: insertion, removal: removalt)
+    }
+    
+    var body: some View {
+        
+            ZStack {
+                    DragableViewRepresentable(isDragIn: $isDragIn, dragableModel: dragableModel)
+                        .overlay(Rectangle().stroke(isDragIn ? Color.blue : Color.gray, lineWidth: isDragIn ? 3 : 2))
+                    VStack {
+                        Text(dragableModel.title)
+                        Text(dragableModel.type == .file ? "拖入文件" : "拖入文件夹")
+                        Text(dragableModel.path)
+                    }
+                }
+            .transition(transition)
+            .animation(animation)
+
     }
 }
 
