@@ -20,11 +20,22 @@ struct ToolTypeView: View {
                 .foregroundColor(self.userData.selectedTitle == self.toolType.title ? Color.red: Color.white)
             Spacer()
         }
-            .onTapGesture {
-                if self.userData.waitting {
-                    return
+        .onTapGesture {
+            if self.userData.waitting {
+                return
+            }
+            var index = 0
+            for item in self.userData.data {
+                if item.title == self.toolType.title {
+                    break
                 }
+                index += 1
+            }
+            let upItem = self.userData.data.remove(at: index)
+            self.userData.data.insert(upItem, at: 0)
+            withAnimation {
                 self.userData.selectedTitle = self.toolType.title
+            }
         }
 
     }

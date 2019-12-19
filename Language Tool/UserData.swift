@@ -46,6 +46,14 @@ class DragableModel: NSObject, ObservableObject {
 class UserData: NSObject, ObservableObject {
     var data: [ToolType] =
         [
+            ToolType(title: "Excel 转 String", array: [
+                DragableModel(title: "Excel",
+                              type: .file,
+                              path: "/Users/yly/Documents/Programs/SVNPrograms/Resources/Language/SmartCam Lite/SmartCam Lite Language.xlsx"),
+                DragableModel(title: "输出目录",
+                              type: .directory,
+                              path: "/Users/yly/Documents/Programs/SVNPrograms/IOS/SmartCam Lite/SmartCam Lite/Launch"),
+            ]),
             ToolType(title: "XML 转 String", array: [
                 DragableModel(title: "XML",
                               type: .file,
@@ -64,14 +72,6 @@ class UserData: NSObject, ObservableObject {
                 DragableModel(title: "输出目录",
                               type: .directory,
                               path: "/Users/yly/Desktop/test update excel"),
-            ]),
-            ToolType(title: "Excel 转 String", array: [
-                DragableModel(title: "Excel",
-                              type: .file,
-                              path: "/Users/yly/Documents/Programs/SVNPrograms/Resources/Language/SmartCam Lite/SmartCam Lite Language.xlsx"),
-                DragableModel(title: "输出目录",
-                              type: .directory,
-                              path: "/Users/yly/Documents/Programs/SVNPrograms/IOS/SmartCam Lite/SmartCam Lite/Launch"),
             ]),
             ToolType(title: "Excel 转 XML", array: [
                 DragableModel(title: "Excel",
