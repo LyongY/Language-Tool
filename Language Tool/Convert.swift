@@ -36,6 +36,12 @@ class Convert: NSObject {
                 XlsxFindMissingKey(userdata).start()
             case "CamView Plus语言":
                 CamViewPlusConvert(userdata).start()
+            case "补全 String":
+                CompleteString(userdata).start()
+            case "补全 XML":
+                CompleteXML(userdata).start()
+            case "补全 CamViewPlus":
+                CompleteCamViewPlus(userdata).start()
             case "1024.png 生成各尺寸icon":
                 CreatApplicationIcon(userdata).start()
             default:
@@ -52,6 +58,36 @@ class Convert: NSObject {
     func openExcelFailed(path: String) {
         self.userData.waitting = false
         self.userData.result = "打开 \(path) 失败"
+    }
+    
+    typealias T = Array<(id: String, value: Array<(language: String, value: String)>)>
+    func findMissingData(with stringData: T, from excelData: T) -> T {
+        var missData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        
+        for excelItem in excelData {
+            for excelLanguage in excelItem.value {
+                var found = false
+                findMiss: for stringItem in stringData {
+                    for stringLanguage in stringItem.value {
+                        if excelItem.id == stringItem.id && excelLanguage.language == stringLanguage.language {
+                            found = true
+                            break findMiss
+                        }
+                    }
+                }
+                
+                if !found {
+                    if missData.last?.id == excelItem.id {
+                        var temp = missData.last?.value
+                        temp!.append((language: excelLanguage.language, value: excelLanguage.value))
+                        missData[missData.count - 1].value = temp!
+                    } else {
+                        missData.append((id: excelItem.id, value: [(language: excelLanguage.language, value: excelLanguage.value)]))
+                    }
+                }
+            }
+        }
+        return missData
     }
     
     func readData(worksheet: XLWorksheet) -> Array<(id: String, value: Array<(language: String, value: String)>)> {
@@ -73,6 +109,140 @@ class Convert: NSObject {
             }
         }
         return data;
+    }
+    
+    func readDataFromeExcel(path: String) -> Array<(id: String, value: Array<(language: String, value: String)>)>? {
+        guard let workbook = XLWorkbook(path: path) else {
+            return nil
+        }
+        let worksheet = workbook.sheet(with: 0)
+        return self.readData(worksheet: worksheet)
+    }
+    
+    func readDataFromeString(path: String) -> Array<(id: String, value: Array<(language: String, value: String)>)>? {
+        guard let subFiles = try? FileManager.default.contentsOfDirectory(atPath: path) else {
+            return nil
+        }
+        var tempDic: Dictionary<String,Dictionary<String, String>> = [:]
+        for fileName in subFiles {
+            if fileName.contains(".lproj") {
+                let stringFilePath = path + "/\(fileName)/Localizable.strings"
+                guard let fileData = try? Data(contentsOf: URL(fileURLWithPath: stringFilePath)) else {
+                    return nil
+                }
+                let str = String(data: fileData, encoding: .utf8)
+                guard let stringDic = str?.propertyListFromStringsFileFormat() else {
+                    return nil
+                }
+                let language = fileName.replacingOccurrences(of: ".lproj", with: "")
+                for (key, value) in stringDic {
+                    if tempDic[key] != nil {
+                        tempDic[key]![language] = value
+                    } else {
+                        tempDic[key] = [language: value]
+                    }
+                }
+            }
+        }
+        
+        var data: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        for (key, languageDic) in tempDic {
+            data.append((id: key, value: []))
+            for (language, value) in languageDic {
+                if var languageTouple = data.last?.value {
+                    languageTouple.append((language: language, value: value))
+                    data[data.count - 1].value = languageTouple
+                }
+            }
+        }
+        return data
+    }
+    
+    func readDataFromeXml(path: String) -> Array<(id: String, value: Array<(language: String, value: String)>)>? {
+        class RRRR: NSObject, XMLParserDelegate {
+            var path: String
+            var parserData: Array<(key: String, value: String)>?
+            
+            var xmlkey: String?
+            
+            init(path: String) {
+                self.path = path
+                super.init()
+            }
+
+            func parser() {
+                parserData = []
+                let parser = XMLParser(contentsOf: URL(fileURLWithPath: path))
+                parser?.delegate = self
+                parser?.parse()
+            }
+            
+            func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+                xmlkey = attributeDict["name"]
+                guard elementName == "string" && xmlkey?.count != 0 else {
+                    xmlkey = nil
+                    return
+                }
+                if  xmlkey == "IDS_PRIVACY_POLICY" ||
+                    xmlkey == "IDS_PASSWORD_RULES_CONTENT" {
+                    xmlkey = nil
+                    return
+                }
+            }
+            
+            func parser(_ parser: XMLParser, foundCharacters string: String) {
+                guard xmlkey != nil else {
+                    return
+                }
+                if parserData?.last?.key == xmlkey {
+                    let value = parserData![parserData!.count - 1].value + string
+                    parserData![parserData!.count - 1].value = value
+                } else {
+                    parserData?.append((key: xmlkey!, value: string))
+                }
+            }
+            
+            func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+                xmlkey = nil
+            }
+        }
+        
+        guard let subFiles = try? FileManager.default.contentsOfDirectory(atPath: path) else {
+            return nil
+        }
+        var data: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        for fileName in subFiles {
+            let directPath = path + "/\(fileName)"
+            var isDirect: ObjCBool = false
+            FileManager.default.fileExists(atPath: directPath, isDirectory: &isDirect)
+            if !isDirect.boolValue {
+                continue
+            }
+            
+            let language = fileName
+            
+            let xmlFilePath = path + "/\(fileName)/strings.xml"
+            
+            let parser = RRRR(path: xmlFilePath)
+            parser.parser()
+            for parseItem in parser.parserData! {
+                var sameIndex: Int? = nil
+                for i in 0..<data.count {
+                    let dataItem = data[i]
+                    if dataItem.id == parseItem.key {
+                        sameIndex = i
+                        break
+                    }
+                }
+                if sameIndex != nil {
+                    data[sameIndex!].value.append((language: language, value: parseItem.value))
+                } else {
+                    data.append((id: parseItem.key, value: [(language: language, value: parseItem.value)]))
+                }
+            }
+        }
+        
+        return data
     }
     
     func writeDataToExcel(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
@@ -123,9 +293,11 @@ class Convert: NSObject {
                         languageIndex = j
                     }
                 }
-                var value = data[row].value[languageIndex].value
-                value = value.replacingOccurrences(of: "\"", with: "\\\"")
                 let key = data[row].id
+                var value = data[row].value[languageIndex].value
+                if key != "SERVERLIST_CARD_DEVICE_SET_NETWORK_NOTICE_OPEN_WIFI_DETAILS" {
+                    value = value.replacingOccurrences(of: "\"", with: "\\\"")
+                }
 
                 if key == "IDS_PASSWORD_RULES_CONTENT" {
                     continue
@@ -138,6 +310,95 @@ class Convert: NSObject {
             }
         }
     }
+    
+    func writeDataToStringAtEnd(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
+        guard let subFiles = try? FileManager.default.contentsOfDirectory(atPath: targetPath) else {
+            return
+        }
+        for fileName in subFiles {
+            if fileName.contains(".lproj") {
+                let language = fileName.replacingOccurrences(of: ".lproj", with: "")
+                let filePath = targetPath + "/\(language).lproj/Localizable.strings"
+                
+                let handle = FileHandle(forWritingAtPath: filePath)
+                handle?.seekToEndOfFile()
+                handle?.write("\n".data(using: .utf8)!)
+                for row in 0..<data.count {
+                    var languageIndex: Int?
+                    for j in 0..<data[row].value.count {
+                        if data[row].value[j].language == language {
+                            languageIndex = j
+                        }
+                    }
+                    if languageIndex == nil {
+                        continue
+                    }
+                    let key = data[row].id
+                    var value = data[row].value[languageIndex!].value
+                    if key != "SERVERLIST_CARD_DEVICE_SET_NETWORK_NOTICE_OPEN_WIFI_DETAILS" {
+                        value = value.replacingOccurrences(of: "\"", with: "\\\"")
+                    }
+
+                    if key == "IDS_PASSWORD_RULES_CONTENT" {
+                        continue
+                    }
+                    handle?.write("\"".data(using: .utf8)!)
+                    handle?.write(key.data(using: .utf8)!)
+                    handle?.write("\" = \"".data(using: .utf8)!)
+                    handle?.write(value.data(using: .utf8)!)
+                    handle?.write("\";\n".data(using: .utf8)!)
+                }
+            }
+        }
+    }
+    
+    func writeDataToXMLAtEnd(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
+        guard let subFiles = try? FileManager.default.contentsOfDirectory(atPath: targetPath) else {
+            return
+        }
+        for fileName in subFiles {
+            let directPath = targetPath + "/\(fileName)"
+            var isDirect: ObjCBool = false
+            FileManager.default.fileExists(atPath: directPath, isDirectory: &isDirect)
+            if !isDirect.boolValue {
+                continue
+            }
+            
+            let language = fileName
+            
+            let xmlFilePath = targetPath + "/\(fileName)/strings.xml"
+            
+            
+            let stringdata = try? Data(contentsOf: URL(fileURLWithPath: xmlFilePath))
+            var string = String(data: stringdata!, encoding: .utf8)
+            string = string?.replacingOccurrences(of: "</resources>", with: "")
+            try! string?.write(toFile: xmlFilePath, atomically: true, encoding: .utf8)
+            
+            let handle = FileHandle(forWritingAtPath: xmlFilePath)
+            handle?.seekToEndOfFile()
+            handle?.write("\n".data(using: .utf8)!)
+            
+            
+            for row in 0..<data.count {
+                var languageIndex: Int?
+                for j in 0..<data[row].value.count {
+                    if data[row].value[j].language == language {
+                        languageIndex = j
+                    }
+                }
+                if languageIndex == nil {
+                    continue
+                }
+                var value = data[row].value[languageIndex!].value
+                let key = data[row].id
+                
+                value = value.replacingOccurrences(of: "&", with: "&amp;")
+                handle?.write("    <string name=\"\(key)\">\(value)</string>\n".data(using: .utf8)!)
+            }
+            handle?.write("</resources>".data(using: .utf8)!)
+        }
+    }
+
     
     func writeDataToXML(data: Array<(id: String, value: Array<(language: String, value: String)>)>, targetPath: String) {
         for i in 0..<data.first!.value.count {
@@ -421,6 +682,112 @@ class CamViewPlusConvert: Convert {
         self.writeDataToString(data: appData, targetPath: appPath)
         self.writeDataToXML(data: webData, targetPath: webPath)
         self.complete()
+    }
+}
+
+class CompleteString: Convert {
+    var sourcePath: String = "/"
+    var targetPath: String = "/"
+    
+    func start() {
+        sourcePath = self.userData.selected!.array[0].path
+        targetPath = self.userData.selected!.array[1].path
+        
+        guard let stringData = self.readDataFromeString(path: targetPath) else {
+            self.openExcelFailed(path: targetPath)
+            return
+        }
+        
+        guard let excelData = self.readDataFromeExcel(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
+        }
+
+        let missData = self.findMissingData(with: stringData, from: excelData)
+
+        // 续写
+        self.writeDataToStringAtEnd(data: missData, targetPath: targetPath)
+        self.complete()
+    }
+}
+
+class CompleteXML: Convert {
+    var sourcePath: String = "/"
+    var targetPath: String = "/"
+    
+    func start() {
+        sourcePath = self.userData.selected!.array[0].path
+        targetPath = self.userData.selected!.array[1].path
+        
+        guard let xmlData = self.readDataFromeXml(path: targetPath) else {
+            self.openExcelFailed(path: targetPath)
+            return
+        }
+        
+        guard let excelData = self.readDataFromeExcel(path: sourcePath) else {
+            self.openExcelFailed(path: sourcePath)
+            return
+        }
+
+        let missData = self.findMissingData(with: xmlData, from: excelData)
+            
+        // 续写
+        self.writeDataToXMLAtEnd(data: missData, targetPath: targetPath)
+        self.complete()
+    }
+}
+
+class CompleteCamViewPlus: Convert {
+    var excelPath: String = "/"
+    var appPath: String = "/"
+    var webPath: String = "/"
+
+    func start() {
+        excelPath = self.userData.selected!.array[0].path
+        appPath = self.userData.selected!.array[1].path
+        webPath = self.userData.selected!.array[2].path
+        
+        guard let excelData = self.readDataFromeExcel(path: excelPath) else {
+            self.openExcelFailed(path: excelPath)
+            return
+        }
+        
+        var excelAppData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        var excelWebData: Array<(id: String, value: Array<(language: String, value: String)>)> = []
+        
+        var isAppKey = true
+        for i in 0..<excelData.count {
+            let item = excelData[i]
+            
+            if item.id.count <= 0 {
+                isAppKey = false
+            }
+            
+            if isAppKey {
+                excelAppData.append(item)
+            } else {
+                excelWebData.append(item)
+            }
+        }
+
+        guard let appData = self.readDataFromeString(path: appPath) else {
+            self.openExcelFailed(path: appPath)
+            return
+        }
+
+        guard let webData = self.readDataFromeXml(path: webPath) else {
+            self.openExcelFailed(path: webPath)
+            return
+        }
+
+        let missAppData = self.findMissingData(with: appData, from: excelAppData)
+        let missWebData = self.findMissingData(with: webData, from: excelWebData)
+        
+        self.writeDataToStringAtEnd(data: missAppData, targetPath: appPath)
+        self.writeDataToXMLAtEnd(data: missWebData, targetPath: webPath)
+        
+        self.complete()
+        
     }
 }
 

@@ -103,6 +103,33 @@ class UserData: NSObject, ObservableObject {
                               type: .directory,
                               path: "/Users/yly/Desktop/test update excel"),
             ]),
+            ToolType(title: "补全 String", array: [
+                DragableModel(title: "Excel",
+                              type: .file,
+                              path: "/Users/yly/Desktop/test update excel/工作簿1.xlsx"),
+                DragableModel(title: "App语言文件夹",
+                              type: .directory,
+                              path: "/Users/yly/Desktop/test update excel/local string"),
+            ]),
+            ToolType(title: "补全 XML", array: [
+                DragableModel(title: "Excel",
+                              type: .file,
+                              path: "/Users/yly/Desktop/test update excel/中性语言.xlsx"),
+                DragableModel(title: "XML语言文件夹",
+                              type: .directory,
+                              path: "/Users/yly/Desktop/test update excel/local xml/test"),
+            ]),
+            ToolType(title: "补全 CamViewPlus", array: [
+                DragableModel(title: "Excel",
+                              type: .file,
+                              path: "/Users/yly/Desktop/test update excel/中性语言.xlsx"),
+                DragableModel(title: "App语言文件夹",
+                              type: .directory,
+                              path: "/Users/yly/Desktop/test update excel/local string"),
+                DragableModel(title: "web语言文件夹",
+                              type: .directory,
+                              path: "/Users/yly/Desktop/test update excel/local xml/test"),
+            ]),
             ToolType(title: "1024.png 生成各尺寸icon", array: [
                 DragableModel(title: "拖入1024图片",
                               type: .file,
@@ -123,7 +150,7 @@ class UserData: NSObject, ObservableObject {
         return nil
     }
     
-    @Published var selectedTitle = "Excel 转 String"
+    @Published var selectedTitle = "补全 CamViewPlus"
 
     @Published var waitting = false
     @Published var process = 0.0
