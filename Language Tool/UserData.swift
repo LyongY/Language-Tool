@@ -150,7 +150,7 @@ class UserData: NSObject, ObservableObject {
         return nil
     }
     
-    @Published var selectedTitle = "补全 CamViewPlus"
+    @Published var selectedTitle = "Excel 转 String"
 
     @Published var waitting = false
     @Published var process = 0.0
